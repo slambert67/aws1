@@ -1,0 +1,12 @@
+name: On Push Example
+
+on:
+  push:
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print a message
+        run: echo "A new push was detected"
