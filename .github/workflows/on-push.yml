@@ -10,3 +10,24 @@ jobs:
     steps:
       - name: Print a message
         run: echo "A new push was detected"
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Nodejs
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        uses: npm ci
+
+      - name: Run jest tests
+        uses: npm test
+
+
