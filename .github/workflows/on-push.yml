@@ -25,9 +25,9 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        uses: npm ci
+        uses: run ci
 
       - name: Run jest tests
-        uses: npm test
+        run: npm test
 
 
