@@ -3,6 +3,10 @@ name: On Push Example
 on:
   push:
 
+permissions:
+  id-token: write
+  contents: read
+  
 jobs:
   say-hello:
     runs-on: ubuntu-latest
