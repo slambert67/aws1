@@ -57,9 +57,10 @@ jobs:
         working-directory: my-first-aws-app
         run: |
           IMAGE_URI=869036203214.dkr.ecr.eu-north-1.amazonaws.com/my-first-aws-app:${{ github.sha }}
-          docker build -f apps/aws/Dockerfile -t $IMAGE_URI apps/aws
+          docker build -f apps/aws/Dockerfile -t $IMAGE_URI .
           docker push $IMAGE_URI
           echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
+
 
 
 
