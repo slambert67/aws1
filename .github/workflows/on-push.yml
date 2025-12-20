@@ -6,7 +6,7 @@ on:
 permissions:
   id-token: write
   contents: read
-  
+
 jobs:
   say-hello:
     runs-on: ubuntu-latest
@@ -54,7 +54,7 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Build, tag, and push Docker image
-        working-directory: my-first-aws-app
+        working-directory: my-first-aws-app/apps/aws
         run: |
           IMAGE_URI=869036203214.dkr.ecr.eu-north-1.amazonaws.com/my-first-aws-app:${{ github.sha }}
           docker build -t $IMAGE_URI .
