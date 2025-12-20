@@ -33,5 +33,29 @@ jobs:
         run: npm test
         working-directory: my-first-aws-app
 
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code for deployment
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::869036203214:role/github-actions-ecs-deploy
+          aws-region: eu-north-1
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build, tag, and push Docker image
+        working-directory: my-first-aws-app
+        run: |
+          IMAGE_URI=869036203214.dkr.ecr.eu-north-1.amazonaws.com/my-first-aws-app:${{ github.sha }}
+          docker build -t $IMAGE_URI .
+          docker push $IMAGE_URI
+          echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
+
 
 
