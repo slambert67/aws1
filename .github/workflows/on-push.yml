@@ -39,6 +39,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
+    needs: test
 
     steps:
       - name: Checkout code for deployment
@@ -60,6 +61,22 @@ jobs:
           docker build -f apps/aws/Dockerfile -t $IMAGE_URI .
           docker push $IMAGE_URI
           echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
+
+      - name: Render ECS task definition
+        id: render-task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ecs/task-definition.json
+          container-name: my-container
+          image: ${{ env.IMAGE_URI }}
+
+      - name: Deploy to Amazon ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: ${{ steps.render-task-def.outputs.task-definition }}
+          service: my-aws-task-definition-service-igvnsldq
+          cluster: my-aws-cluster
+          wait-for-service-stability: true
 
 
 
